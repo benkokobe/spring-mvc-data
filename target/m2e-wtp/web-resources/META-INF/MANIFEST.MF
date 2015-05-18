@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-Title: spring-mvc-data
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.bko
+Build-Jdk: 1.6.0_27
+Built-By: ben
+Created-By: Maven Integration for Eclipse
+Main-Class: com.bko.SpringMvcDataApplication
+
