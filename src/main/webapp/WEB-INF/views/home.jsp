@@ -20,21 +20,16 @@
 <table> 
 <thead>
      <tr>
-       <td>Enter DR name and Reflot!</td>
+       <td>Enter DR name you want generated!</td>
      </tr>
 </thead>
 </table>
-<form:form method="post" modelAttribute ="user">
+<form:form action="generate" method="post" modelAttribute="deploymentRequest">
 <table>
   <tr>
       <td>DR Name: </td>
-      <td><form:input path="username"/></td>
-      <td><form:errors path="username" cssClass="errors"/></td>
-  </tr>
-  <tr>
-      <td>REFLOT: </td>
-      <td><form:input path="email"/></td>
-      <td><form:errors path="email" cssClass="errors"/></td>
+      <td><form:input path="drName"/></td>
+      <td><form:errors path="drName" cssClass="errors"/></td>
   </tr>
   <tr>
       <td colspan="3"><input type="submit" value="Save"></td>

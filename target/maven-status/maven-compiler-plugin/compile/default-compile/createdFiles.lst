@@ -1,0 +1,5 @@
+com\bko\service\PatchServiceImpl.class
+com\bko\service\DeploymentRequestServiceImpl.class
+com\bko\service\PatchTaskService.class
+com\bko\service\PatchService.class
+com\bko\service\DeploymentRequestService.class

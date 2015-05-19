@@ -1,10 +1,14 @@
 package com.bko;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.bko.domain.Course;
+import com.bko.domain.Patch;
 import com.bko.persistence.CourseDao;
+import com.bko.persistence.DeploymentRequestDao;
+import com.bko.persistence.PatchDao;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -12,25 +16,23 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("beans-hibernate.xml"); // or 'beans-hibernate.xml' 
+        //ApplicationContext context = new ClassPathXmlApplicationContext("root-context.xml"); // or 'beans-hibernate.xml'
+    	ApplicationContext ctx = new AnnotationConfigApplicationContext(MyBeansDefinition.class);
+    	//MyBeansDefinition
 
-        CourseDao courseDao = (CourseDao) context.getBean("courseDao");
+        //CourseDao courseDao = (CourseDao) context.getBean("patchDao");
+        PatchDao patchDao = (PatchDao) ctx.getBean("patchDao");
+        DeploymentRequestDao deployementRequest = (DeploymentRequestDao) ctx.getBean("deploymentRequestDao");
+        
+        
+        List<Patch> patchList = deployementRequest.getPatchList2("PACK-PND-0674");
+        System.out.println("Requesting DR");
+        for (Patch patch :patchList ){
+        	System.out.println("Patch" + patch.getPatchId());
+        }
+        System.out.println("Completed");
 
-        Course course = new Course();
-        course.setTitle("Core Spring");
-        course.setBeginDate(new GregorianCalendar(2007, 8, 1).getTime());
-        course.setEndDate(new GregorianCalendar(2007, 9, 1).getTime());
-        course.setFee(1000);
-        courseDao.store(course);
 
-        List<Course> courses = courseDao.findAll();
-        Long courseId = courses.get(0).getId();
-
-        course = courseDao.findById(courseId);
-        System.out.println("Course Title: " + course.getTitle());
-        System.out.println("Begin Date: " + course.getBeginDate());
-        System.out.println("End Date: " + course.getEndDate());
-        System.out.println("Fee: " + course.getFee());
 
         //courseDao.delete(courseId);
     }

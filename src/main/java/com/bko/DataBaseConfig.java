@@ -24,10 +24,10 @@ import com.bko.persistence.UserDAOImpl;
 
 
 @Configuration
-//@ComponentScan(basePackages = "com.bko")
-//@PropertySource({ "classpath:mysql.properties" })
 @ComponentScan(basePackages = "com.bko")
-@PropertySource("classpath:mysql.properties")
+@PropertySource({ "classpath:mysql.properties" })
+//@PropertySource("classpath:oracle.properties")
+//@ComponentScan(basePackages = "com.bko")
 @EnableTransactionManagement
 public class DataBaseConfig {
 	// http://www.baeldung.com/hibernate-4-spring

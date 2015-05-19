@@ -9,7 +9,8 @@ public class ExcelViewResolver implements ViewResolver{
 
 	@Override
 	public View resolveViewName(String viewName, Locale locale) throws Exception {
-		ExcelView view = new ExcelView();
+		//ExcelView view = new ExcelView();
+		ExcelGenerator view = new ExcelGenerator();
 		return view;
       }
 	

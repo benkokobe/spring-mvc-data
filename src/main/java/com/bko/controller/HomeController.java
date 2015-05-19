@@ -33,6 +33,14 @@ public class HomeController {
 		model.addAttribute("user", user);
 		return "home";
 	}
+	@RequestMapping(value = "/generate2", method = RequestMethod.GET)
+	public ModelAndView drList(HttpServletRequest request) {
+		int userId = Integer.parseInt(request.getParameter("username"));
+		User user = userDao.get(userId);
+		ModelAndView model = new ModelAndView("drPatchList");
+		model.addObject("user", user);
+		return model;		
+	}
 
 	@RequestMapping("/")
 	public ModelAndView handleRequest() throws Exception {

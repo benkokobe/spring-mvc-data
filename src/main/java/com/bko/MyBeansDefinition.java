@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ImportResource;
 
 
 @Configuration
-@ComponentScan(basePackages = "com.bko")
+@ComponentScan(basePackages = "com.bko" )
 @ImportResource("classpath:root-context.xml")
 public class MyBeansDefinition {
 	
