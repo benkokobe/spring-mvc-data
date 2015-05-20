@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bko.domain.DeploymentRequest;
@@ -21,7 +22,7 @@ import com.bko.service.PatchService;
 
 
 @Controller
-//@RequestMapping(value="/deployment")
+@RequestMapping(value="/deployment/*")
 public class DeploymentRequestController {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -41,8 +42,8 @@ public class DeploymentRequestController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	//@RequestMapping(method=RequestMethod.GET)
-	@RequestMapping(value="/deployment", method = RequestMethod.GET)
-	public String home(Model model) {
+	@RequestMapping(method = RequestMethod.GET)
+	public String home( Model model) {
 		logger.info("DR page!");
 		//generateName();
 		logger.info("generated names!");
@@ -53,13 +54,13 @@ public class DeploymentRequestController {
 	}
 	
 	
-	@RequestMapping(value="/generate", method = RequestMethod.POST)
-	public ModelAndView submitForm(@ModelAttribute("deploymentRequest") DeploymentRequest deploymentRequest) {
+	@RequestMapping(value="generate*", method = RequestMethod.GET)
+	public String submitForm(@RequestParam(required = true, value = "drName") String drName, 
+			Model model) {
 		//String dr = "PACK-TF0-0014";//this is over-written by properties file
 		
 		//this.deploymentRequest.setDrName(deploymentRequest.getDrName());
-		this.deploymentRequest.setPatchList(deploymentRequestService.getPatchList(deploymentRequest.getDrName()));
-
+		this.deploymentRequest.setPatchList(deploymentRequestService.getPatchList(drName));
 		
 		//exGen = new DeploymentRequestGenerate3();
 		//exGen.setDeploymentRequestService(deploymentRequestService);
@@ -68,7 +69,9 @@ public class DeploymentRequestController {
 		logger.info("To generate an excel document:" + deploymentRequest.getDrName());
 		//exGen.setReflot(reflot);
 		//exGen.generateDocument(dr);
-		return new ModelAndView("redirect:/deployment");
+		
+		model.addAttribute("deploymentRequest",this.deploymentRequest);
+		return "drPatchList";
 		
 	}
 

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
+import com.bko.domain.DeploymentRequest;
 import com.bko.domain.Patch;
 import com.bko.service.PatchService;
 
@@ -41,7 +42,7 @@ public class ExcelGenerator extends AbstractExcelView {
 
 	private static final Logger log = LoggerFactory.getLogger(ExcelGenerator.class);
 
-	private ArrayList<TransferOperationRule> transferOperationRuleList;
+	//private ArrayList<TransferOperationRule> transferOperationRuleList;
 
 	private ArrayList<String> touchyMembersList;
 
@@ -71,15 +72,6 @@ public class ExcelGenerator extends AbstractExcelView {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		/*
-		 * HSSFSheet sheet1 = wb.createSheet("Patch List");
-		 *
-		HSSFSheet sheet2 = wb.createSheet("Patch members list");
-		HSSFSheet sheet3 = wb.createSheet("TFT operations");
-		HSSFSheet sheet4 = wb.createSheet("YPD23 operations");
-		HSSFSheet sheet5 = wb.createSheet("Missing Members");
-		HSSFSheet sheet6 = wb.createSheet("Missing YE");
-		*/
         
 		this.workbook = new HSSFWorkbook();
 		
@@ -87,14 +79,18 @@ public class ExcelGenerator extends AbstractExcelView {
 	    this.sheet2 = wb.createSheet("Patch members list");
 	    this.sheet3 = wb.createSheet("TFT operations");
 	    this.sheet4 = wb.createSheet("YPD23 operations");
-	    this.sheet5 = wb.createSheet("Missing Members");
-	    this.sheet6 = wb.createSheet("Missing YE");
+	    //this.sheet5 = wb.createSheet("Missing Members");
+	    //this.sheet6 = wb.createSheet("Missing YE");
 	    
 
-		this.loadTransferOpRule(getCorrectPath("transfer_op_rule.txt"));
-		this.loadTouchyMembers(getCorrectPath("touchy_members.txt"));
+		//this.loadTransferOpRule(getCorrectPath("transfer_op_rule.txt"));
+		//this.loadTouchyMembers(getCorrectPath("touchy_members.txt"));
 		
-		List<Patch> patchList = (List<Patch>)model.get("patchList");
+		//List<Patch> patchList = (List<Patch>)model.get("deploymentRequest");
+	    //deploymentRequest
+	    DeploymentRequest deploymentRequest = (DeploymentRequest)model.get("deploymentRequest");
+	    List<Patch> patchList = deploymentRequest.getPatchList();
+	    
 		log.info("buildExcelDocument() :Size of patch list received from model:" + patchList.size());
 		
 		generateList(wb, patchList, (String)model.get("drName"));
@@ -149,73 +145,6 @@ public class ExcelGenerator extends AbstractExcelView {
 		// + System.getProperty("file.seperator")
 				+ "/" + file_name;
 		return f_path;
-	}
-
-	public void loadTouchyMembers(String file_name) {
-
-		this.touchyMembersList = new ArrayList<String>();
-		try {
-			// "transfer_op_rule.txt"
-			FileInputStream fstream = new FileInputStream(file_name);
-			// Get the object of DataInputStream
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String strLine;
-			// Read File Line By Line
-			while ((strLine = br.readLine()) != null) {
-				// Print the content on the console
-				log.debug(strLine);
-				this.touchyMembersList.add(strLine.trim());
-
-			}
-			// Close the input stream
-			in.close();
-		} catch (Exception e) {// Catch exception if any
-			log.error("Error reading touchy file: " + e.getMessage());
-		}
-		log.info("**********************************************");
-		log.info("Touchy members in file " + file_name + " loaded.");
-		log.info("**********************************************");
-	}
-
-	public void loadTransferOpRule(String file_name) {
-
-		this.transferOperationRuleList = new ArrayList<TransferOperationRule>();
-		TransferOperationRule transferOpertionRule;
-		String category, complement;
-		try {
-			// "transfer_op_rule.txt"
-			FileInputStream fstream = new FileInputStream(file_name);
-			// Get the object of DataInputStream
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String strLine;
-			// Read File Line By Line
-			while ((strLine = br.readLine()) != null) {
-				// Print the content on the console
-				strLine.split("=");
-				log.debug(strLine);
-				String[] tokens = strLine.split("=");
-				if (tokens.length > 2) {
-					log.error("The transfer rule has eror!! please only use one = as a delimitter!!!");
-					return;
-				} else {
-					transferOpertionRule = new TransferOperationRule();
-					category = tokens[1];
-					complement = tokens[0];
-					transferOpertionRule.category = category;
-					transferOpertionRule.complement = complement;
-					transferOperationRuleList.add(transferOpertionRule);
-					// log.debug("Category  :" + category);
-					// log.debug("complement:" + complement);
-				}
-
-			}
-			// Close the input stream
-			in.close();
-		} catch (Exception e) {// Catch exception if any
-			log.error("Error reading transfer rule file: " + e.getMessage());
-		}
 	}
 
 }
