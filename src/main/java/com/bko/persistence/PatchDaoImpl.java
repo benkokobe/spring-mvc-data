@@ -23,15 +23,15 @@ public class PatchDaoImpl implements PatchDao{
 	
 	private final Logger logger = Logger.getLogger(PatchDaoImpl.class);
 	//private JdbcTemplate jdbcTemplate;
-	private NamedParameterJdbcTemplate jdbcTemplate2;
+	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	public void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate2 = new NamedParameterJdbcTemplate(dataSource);
+		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
 
 	@SuppressWarnings("unchecked")
-	public List<PatchMember> getPatchMember( String REFPAT ) {
+	public List<PatchMember> getPatchMembers( String REFPAT ) {
 	    try {
 	      
 	      MapSqlParameterSource params = new MapSqlParameterSource();
@@ -41,38 +41,31 @@ public class PatchDaoImpl implements PatchDao{
 	      //String sql = "SELECT REFPAT FROM YSW11 WHERE SYNDPR  = (SELECT SYNDPR FROM YSW10 WHERE NAMLOT = :NAMLOT)";
 	      String sql = "SELECT * FROM YPD02_SYN WHERE REFPAT = :REFPAT";
           logger.info("getPatchMember"  + sql);
-	      List<PatchMember> patchMembersList = jdbcTemplate2.query(sql,  params, new PatchMembersListRowMapper());
+	      List<PatchMember> patchMembersList = jdbcTemplate.query(sql,  params, new PatchMembersRowMapper());
 	      
 	      return patchMembersList;
 	    } catch ( DataAccessException exc ) {
-	      //logger.error("FAILED to get PatchList List", exc);
-	    	System.out.println("FAILED to get PatchMembers List "+ exc);
+	      logger.error("FAILED to get PatchList List", exc);
 	      return new ArrayList<PatchMember>();
 	    }
 	  }
-	public List<Patch> getPatchListComplete( String REFPAT ) {
+	public List<Patch> getPatchDescription( String refpat ) {
 	    try {
-	    	System.out.println( "REFPAT: " + REFPAT);
+	    	System.out.println( "REFPAT: " + refpat);
 	      //MapSqlParameterSource params = new MapSqlParameterSource( "NAMLOT", NAMLOT );
 	      
 	      MapSqlParameterSource params = new MapSqlParameterSource();
-	      params.addValue("REFPAT", REFPAT);
+	      params.addValue("REFPAT", refpat);
 	      
 	      
-	      //BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(drName);
-
 	      String sql = "SELECT * FROM YPD01_SYN WHERE REFPAT = :REFPAT";
-	      //String sql = "SELECT REFPAT FROM YFD06 WHERE REFLOT  = (SELECT REFLOT FROM YFD05 WHERE NAMLOT = :NAMLOT)";
-	      //String sql = "SELECT REFPAT FROM YSW11 WHERE REFPAT = :NAMLOT";
-	      System.out.println( sql );
-	      //System.out.println("DEBUG:" + sql);
-	      //List<Patch> patches = jdbcTemplate2.query(sql,  params, new PatchListRowMapper());
-	      List<Patch> patches = jdbcTemplate2.query(sql,  params, new PatchCompleteListRowMapper());
+	      logger.debug("SQL:" +  sql );
+
+	      List<Patch> patches = jdbcTemplate.query(sql,  params, new PatchDescriptionRowMapper());
 	      //namedParameters
 	      return patches;
 	    } catch ( DataAccessException exc ) {
-	      //logger.error("FAILED to get PatchList List", exc);
-	    	System.out.println("FAILED to get PatchList List"+ exc);
+	       logger.error("FAILED to get PatchList List", exc);
 	      return new ArrayList<Patch>();
 	    }
 	  }
@@ -87,7 +80,7 @@ public class PatchDaoImpl implements PatchDao{
 		 * Implement the RowMapper callback interface
 		 */
 		//return (List)jdbcTemplate.queryForObject(query1, new Cwd81RowMapper());
-		List<TransferOperation> transferOperationList = jdbcTemplate2.query(query1, params,new TransferOperationsRowMapper());
+		List<TransferOperation> transferOperationList = jdbcTemplate.query(query1, params,new TransferOperationsRowMapper());
 		return transferOperationList;
 		 } catch ( DataAccessException exc ) {
 		      //logger.error("FAILED to get PatchList List", exc);
@@ -100,7 +93,7 @@ public class PatchDaoImpl implements PatchDao{
 	* rowmapper is used by Spring to read a line from a database table 
 	* and to fill an instance of the class with the values
 	*/
-	public class PatchMembersListRowMapper implements RowMapper {
+	public class PatchMembersRowMapper implements RowMapper {
 
 		public PatchMember mapRow(ResultSet rs, int rowNum) throws SQLException {
 			// I use JDK 5 so I do not have to wrap int with an Integer object
@@ -126,7 +119,7 @@ public class PatchDaoImpl implements PatchDao{
 			return transferOperation;
 		}
 	}
-	public class PatchCompleteListRowMapper implements RowMapper {
+	public class PatchDescriptionRowMapper implements RowMapper {
 
 		public Patch mapRow(ResultSet rs, int rowNum) throws SQLException {
 			// I use JDK 5 so I do not have to wrap int with an Integer object

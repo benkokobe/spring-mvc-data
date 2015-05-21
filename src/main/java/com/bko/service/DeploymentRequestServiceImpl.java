@@ -25,12 +25,14 @@ public class DeploymentRequestServiceImpl implements DeploymentRequestService{
 
 	public List<Patch> getPatchList(String deploymentRequest) {
 		
-		return this.deploymentRequestDao.getPatchList2(deploymentRequest);
+		return this.deploymentRequestDao.getPatchList(deploymentRequest);
 	}
 
-	public List<Patch> getPatchListComplete(String NAMLOT) {
+	/*
+	 * public List<Patch> getPatchListComplete(String NAMLOT) {
 		return this.deploymentRequestDao.getPatchListComplete(NAMLOT);
 	}
+	*/
 
 	public List<TransferOperation> getTransferOperation(String deploymentRequest) {
 		return this.deploymentRequestDao.getTransferOperation(deploymentRequest);

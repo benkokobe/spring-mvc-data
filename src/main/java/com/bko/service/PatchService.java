@@ -9,7 +9,7 @@ import com.bko.domain.TransferOperation;
 
 
 public interface PatchService {
-	List<PatchMember> getPatchMember( String REFPAT );
-	List<TransferOperation> getTransferOperation(String REFMAI);
-	List<Patch> getPatchListComplete(String NAMLOT);
+	List<PatchMember> getPatchMember( String refpat );
+	List<TransferOperation> getTransferOperation(String refpat);
+	List<Patch> getPatchDescription(String refpat);
 }

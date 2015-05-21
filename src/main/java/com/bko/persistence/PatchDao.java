@@ -11,7 +11,7 @@ import com.bko.domain.TransferOperation;
 public interface PatchDao {
 	public Patch getPatch(String patchId);
 	public List<TransferOperation> getTransferOperation(String patchId);
-	public List<PatchMember> getPatchMember(String patchId);
-	public List<Patch> getPatchListComplete(String NAMLOT);
+	public List<PatchMember> getPatchMembers(String patchId);
+	public List<Patch> getPatchDescription(String NAMLOT);
 
 }

@@ -17,15 +17,15 @@ public class PatchServiceImpl implements PatchService{
 	}
 
 	public List<PatchMember> getPatchMember(String REFPAT) {
-		return patchDao.getPatchMember(REFPAT);
+		return patchDao.getPatchMembers(REFPAT);
 	}
 
 	public List<TransferOperation> getTransferOperation(String REFMAI) {
 		return patchDao.getTransferOperation(REFMAI);
 	}
 	
-	public List<Patch> getPatchListComplete(String refpat) {
-		return this.patchDao.getPatchListComplete(refpat);
+	public List<Patch> getPatchDescription(String refpat) {
+		return this.patchDao.getPatchDescription(refpat);
 	}
 
 }

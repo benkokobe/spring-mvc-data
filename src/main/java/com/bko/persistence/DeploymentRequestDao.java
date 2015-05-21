@@ -8,9 +8,9 @@ import com.bko.domain.TransferOperation;
 
 
 public interface DeploymentRequestDao {
+	/* public List<Patch> getPatchList(String deploymentRequest);*/
 	public List<Patch> getPatchList(String deploymentRequest);
-	public List<Patch> getPatchList2(String deploymentRequest);
-	public List<Patch> getPatchListComplete( String NAMLOT );
+	/*public List<Patch> getPatchListComplete( String NAMLOT ); */
 	public List<TransferOperation> getTransferOperation(String deploymentRequest);
 
 }

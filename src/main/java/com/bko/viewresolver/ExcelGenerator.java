@@ -109,7 +109,7 @@ public class ExcelGenerator extends AbstractExcelView {
 		for (Patch patch : patchList) {
 			
 			log.info("Patch ID: " + patch.getPatchId());
-			List<Patch> patchCompleteList = (List<Patch>) this.patchService.getPatchListComplete(patch.getPatchId());
+			List<Patch> patchCompleteList = (List<Patch>) this.patchService.getPatchDescription(patch.getPatchId());
 			log.info("Patch ID2: " + patch.getPatchId());
 			row = sheet1.createRow((short) i);
 			cell_11 = row.createCell((short) 0);
@@ -126,10 +126,6 @@ public class ExcelGenerator extends AbstractExcelView {
 				cell_14.setCellValue(patchComplete.getSujPat());
 				//i++;
 			}
-			//generateDrMembers(patch.getPatchId());
-			
-			//System.out.println("DR-name   : " + "PACK-PF0-0001");
-			//System.out.println("patch: " + patch.getPatchId());
 			i++;
 			
 			log.debug("Cell written: " + i);
