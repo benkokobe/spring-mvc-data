@@ -11,10 +11,10 @@
     </bean>
     <!--  
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin:@cw1801:1521:HDEVTH1"/>
-        <property name="username" value="pnd"/>
-        <property name="password" value="pnd"/>
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
     -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -44,9 +44,11 @@
 	<bean id="patchDao" class="com.bko.persistence.PatchDaoImpl">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
-	<!-- <bean id="patchTask" class="com.bko.persistence.PatchTaskDaoImpl">
-		<property name="dataSource" ref="dataSourcePND"/>
+	
+	<!--  <bean id="excelGenerator" class="com.bko.viewresolver.ExcelGenerator">
+		<property name="patchService" ref="patchService"/>
+		<property name="deploymentRequestService" ref="deploymentRequestService"/>
 	</bean>
 	-->
-	
+		
 </beans>

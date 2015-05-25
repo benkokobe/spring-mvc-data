@@ -51,22 +51,22 @@ public class PatchDaoImpl implements PatchDao{
 	  }
 	public List<Patch> getPatchDescription( String refpat ) {
 	    try {
-	    	System.out.println( "REFPAT: " + refpat);
-	      //MapSqlParameterSource params = new MapSqlParameterSource( "NAMLOT", NAMLOT );
+	    	
+	    	logger.debug( "REFPAT: " + refpat);
 	      
-	      MapSqlParameterSource params = new MapSqlParameterSource();
-	      params.addValue("REFPAT", refpat);
+	        MapSqlParameterSource params = new MapSqlParameterSource();
+	        params.addValue("REFPAT", refpat);
 	      
 	      
-	      String sql = "SELECT * FROM YPD01_SYN WHERE REFPAT = :REFPAT";
-	      logger.debug("SQL:" +  sql );
+	        String sql = "SELECT * FROM YPD01_SYN WHERE REFPAT = :REFPAT";
+	        logger.debug("SQL:" +  sql );
 
-	      List<Patch> patches = jdbcTemplate.query(sql,  params, new PatchDescriptionRowMapper());
-	      //namedParameters
-	      return patches;
+	        List<Patch> patches = jdbcTemplate.query(sql,  params, new PatchDescriptionRowMapper());
+	        
+	        return patches;
 	    } catch ( DataAccessException exc ) {
-	       logger.error("FAILED to get PatchList List", exc);
-	      return new ArrayList<Patch>();
+	        logger.error("FAILED to get PatchList List", exc);
+	        return new ArrayList<Patch>();
 	    }
 	  }
 	

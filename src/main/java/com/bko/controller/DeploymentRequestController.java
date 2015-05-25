@@ -55,22 +55,23 @@ public class DeploymentRequestController {
 	
 	
 	@RequestMapping(value="generate*", method = RequestMethod.GET)
-	public String submitForm(@RequestParam(required = true, value = "drName") String drName, 
+	public String submitForm(@RequestParam(required = true, value = "drName") String deploymentRequestName, 
 			Model model) {
 		//String dr = "PACK-TF0-0014";//this is over-written by properties file
 		
-		//this.deploymentRequest.setDrName(deploymentRequest.getDrName());
-		this.deploymentRequest.setPatchList(deploymentRequestService.getPatchList(drName));
+		this.deploymentRequest = new DeploymentRequest();
+		this.deploymentRequest.setDrName(deploymentRequestName);
+		this.deploymentRequest.setPatchList(deploymentRequestService.getPatchList(deploymentRequestName));
 		
 		//exGen = new DeploymentRequestGenerate3();
 		//exGen.setDeploymentRequestService(deploymentRequestService);
 		//exGen.setPatchService(patchService);
 		//exGen.init(dr);
-		logger.info("To generate an excel document:" + deploymentRequest.getDrName());
+		logger.info("To generate an excel document:" + deploymentRequestName);
 		//exGen.setReflot(reflot);
 		//exGen.generateDocument(dr);
 		
-		model.addAttribute("deploymentRequest",this.deploymentRequest);
+		model.addAttribute("deploymentRequestName",this.deploymentRequest);
 		return "drPatchList";
 		
 	}

@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.bko.domain.Patch;
+import com.bko.domain.PatchMember;
 import com.bko.domain.TransferOperation;
 
 public class DeploymentRequestDaoImpl implements DeploymentRequestDao {
@@ -22,11 +23,11 @@ public class DeploymentRequestDaoImpl implements DeploymentRequestDao {
 			.getLogger(DeploymentRequestDaoImpl.class);
 	// private JdbcTemplate jdbcTemplate;
 	// private BeanPropertySqlParameterSource namedParameters;
-	private NamedParameterJdbcTemplate jdbcTemplate2;
+	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	public void setDataSource(DataSource dataSource) {
 		// this.jdbcTemplate = new JdbcTemplate(dataSource);
-		this.jdbcTemplate2 = new NamedParameterJdbcTemplate(dataSource);
+		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,10 +39,9 @@ public class DeploymentRequestDaoImpl implements DeploymentRequestDao {
 
 			String sql = "SELECT REFPAT FROM YSW11 WHERE SYNDPR  = (SELECT SYNDPR FROM YSW10 WHERE NOMDPR = :NAMLOT)";
 
-			logger.info("SQL getPatchList2: " + ":" + NAMLOT + ":" + sql);
+			logger.info("SQL getPatchList: " + ":" + NAMLOT + ":" + sql);
 
-			List<Patch> patches = jdbcTemplate2.query(sql, params,
-					new PatchListRowMapper());
+			List<Patch> patches = jdbcTemplate.query(sql, params,new PatchListRowMapper());
 			return patches;
 
 		} catch (DataAccessException exc) {
@@ -49,6 +49,31 @@ public class DeploymentRequestDaoImpl implements DeploymentRequestDao {
 			return new ArrayList<Patch>();
 		}
 	}
+	public List<PatchMember> getDRMembers(String drName){
+		
+		logger.info("getDRMembers");
+		
+		try{
+			MapSqlParameterSource params = new MapSqlParameterSource();
+			params.addValue("NOMDPR", drName);
+		    StringBuilder builder = new StringBuilder();
+			builder.append(" select refpat, nommbr, typmbr, typact from ypd02_syn where refpat in ( ");
+			builder.append(" select refpat from ysw11 where syndpr = (");
+			builder.append(" select syndpr from ysw10 where nomdpr =:NOMDPR ) )");
+			builder.append(" order by refpat ");
+			
+			String query = builder.toString();
+			logger.info("SQL get DRmembers:" + query);
+			
+			List<PatchMember> drMembers = jdbcTemplate.query(query, params,new PatchMembersListRowMapper());
+			
+			return drMembers;
+			} catch (DataAccessException exc)
+		{
+				logger.error("FAILED to get DR members " + exc);
+				return new ArrayList<PatchMember>();
+				}		
+		}
 
 	public List<TransferOperation> getTransferOperation(String NAMLOT) {
 
@@ -56,10 +81,9 @@ public class DeploymentRequestDaoImpl implements DeploymentRequestDao {
 		try {
 			MapSqlParameterSource params = new MapSqlParameterSource();
 			params.addValue("NAMLOT", NAMLOT);
-			String query = "SELECT * FROM yfd07 WHERE REFLOT =:NAMLOT";
-			logger.info("SQL:" + query);
-			List<TransferOperation> transferOperationList = jdbcTemplate2.query(query, params, 
-					new TransferOperationsRowMapper());
+			String query = "select * from yfd07 where reflot = (select reflot from yfd05 where namlot =:NAMLOT)";	
+
+			List<TransferOperation> transferOperationList = jdbcTemplate.query(query, params,new TransferOperationsRowMapper());
 			return transferOperationList;
 		} catch (DataAccessException exc) {
 			logger.error("FAILED to get transfer op. List " + exc);
@@ -112,6 +136,19 @@ public class DeploymentRequestDaoImpl implements DeploymentRequestDao {
 			patch.setPatchId(rs.getString("REFPAT"));
 			// System.out.println("RESULT: " + rs.getString("REFPAT"));
 			return patch;
+		}
+	}
+	
+	public class PatchMembersListRowMapper implements RowMapper {
+
+		public PatchMember mapRow(ResultSet rs, int rowNum) throws SQLException {
+			// I use JDK 5 so I do not have to wrap int with an Integer object
+			PatchMember patchMember = new PatchMember();
+			patchMember.setPatchId(rs.getString("REFPAT"));
+			patchMember.setPatchMember(rs.getString("NOMMBR"));
+			patchMember.setMemberType(rs.getString("TYPMBR"));
+			patchMember.setTypAct(rs.getString("TYPACT"));
+			return patchMember;
 		}
 	}
 

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bko.domain.Patch;
+import com.bko.domain.PatchMember;
 import com.bko.domain.TransferOperation;
 import com.bko.persistence.DeploymentRequestDao;
 
@@ -45,6 +46,11 @@ public class DeploymentRequestServiceImpl implements DeploymentRequestService{
 
 	public List<TransferOperation> getMissingYe(String reflot) {
 		return getMissingYe(reflot);
+	}
+
+	@Override
+	public List<PatchMember> getDRMembers(String drName) {
+		return this.deploymentRequestDao.getDRMembers(drName);
 	}
 
 }

@@ -7,8 +7,9 @@ import org.springframework.context.annotation.ImportResource;
 
 
 @Configuration
-@ComponentScan(basePackages = "com.bko" )
 @ImportResource("classpath:root-context.xml")
+//@ComponentScan(basePackages = "com.bko" )
+@ComponentScan({ "com.bko", "com.bko.viewresolver" })
 public class MyBeansDefinition {
 	
 
