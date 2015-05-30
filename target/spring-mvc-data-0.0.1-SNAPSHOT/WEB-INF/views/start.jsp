@@ -1,30 +1,41 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c"    uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<html>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<link rel="stylesheet" href="<c:url value="resources/styles/springsource.css"/>" type="text/css"/>
-	<title>DR Transfer Report</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+	<link href="<c:url value="styles/springsource.css" />" rel="stylesheet"  type="text/css" />
+	<title>Deployment Request Report</title>
 </head>
+
 <body>
 <div id="main_wrapper">
-<table> 
-<thead>
-     <tr>
-       <td>Welcome to Transfer Report Generator Helper Web App ( click the links below)!</td>
-     </tr>
-</thead>
-</table>
 
-     <ul>
-		<li><a href="conflict">Conflicts Excel generator</a></li>
-		<li><a href="deployment">Deployment request Excel generator</a></li>
-		<li><a href="jspdeployment">Deployment request Report in JSP</a></li>
-	</ul>
+<form:form method="post" modelAttribute="deploymentRequest">
+<table>
+  <tr>
+    <td>Deployment Request Name:</td>
+    <td><form:input path="drName"/></td>
+    <td><form:errors path="drName" cssClass="error" /></td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <input type="hidden" value="0" name="_page"/>
+      <input type="submit" value="Next" name="_target1" />
+      <input type="submit" value="Cancel" name="_cancel" />
+    </td>
+  </tr>
+</table>
+</form:form>
 </div>
 </body>
 </html>

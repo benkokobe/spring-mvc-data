@@ -7,6 +7,7 @@ C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\viewresolver\ExcelView.java
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\viewresolver\ExcelViewResolver.java
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\domain\Patch.java
+C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\controller\GeneratorWizardController.java
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\service\DeploymentRequestService.java
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\service\DeploymentRequestServiceImpl.java
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\service\PatchTaskService.java
@@ -29,5 +30,4 @@ C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\domain\User.java
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\viewresolver\ExcelGenerator.java
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\WebConfig.java
-C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\controller\HomeController.java
 C:\Users\ben\Documents\workspace-spring-study\spring-mvc-data\src\main\java\com\bko\domain\PatchMember.java

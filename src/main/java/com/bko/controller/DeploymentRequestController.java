@@ -21,8 +21,8 @@ import com.bko.service.DeploymentRequestService;
 import com.bko.service.PatchService;
 
 
-@Controller
-@RequestMapping(value="/deployment/*")
+//@Controller
+//@RequestMapping(value="/deployment/*")
 public class DeploymentRequestController {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(HomeController.class);

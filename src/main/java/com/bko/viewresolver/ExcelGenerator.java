@@ -87,7 +87,7 @@ public class ExcelGenerator extends AbstractExcelView {
 
 		// List<Patch> patchList = (List<Patch>)model.get("deploymentRequest");
 		// deploymentRequest
-		this.deploymentRequest = (DeploymentRequest) model.get("deploymentRequestName");
+		this.deploymentRequest = (DeploymentRequest) model.get("deploymentRequest");
 
 		this.patchList = this.deploymentRequest.getPatchList();
 
@@ -141,6 +141,9 @@ public class ExcelGenerator extends AbstractExcelView {
 		// generateYAmissingList(this.reflot);
 	}
 	public void generateDRMembers(HSSFWorkbook wb){
+		
+		log.info("generateList DR members for    :" + this.deploymentRequest.getDrName());
+		
 		List<PatchMember> patchMembersList = this.deploymentRequestService.getDRMembers(this.deploymentRequest.getDrName());
 
 		//Style
@@ -178,6 +181,8 @@ public class ExcelGenerator extends AbstractExcelView {
         
         int indexMembers = 1; // first row for the titles
 		for (PatchMember patchMember : patchMembersList){
+			
+			log.info("patchMember    :" + patchMember.getPatchMember());
 			
 			
 			row2 = sheet2.createRow((short) indexMembers);
